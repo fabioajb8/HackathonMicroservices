@@ -2,7 +2,7 @@
 
 namespace Hackathon.Application.Interfaces.Persistence.Base
 {
-    public interface IInterface<T>
+    public interface IRepositoryBase<T>
     {
         IQueryable<T> FindAll(CancellationToken cancellationToken, bool trackChanges);
 
