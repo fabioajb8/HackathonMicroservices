@@ -2,6 +2,7 @@
 using Hackathon.Application.Interfaces.Persistence.DomainRepositories;
 using Hackathon.Application.Interfaces.Services;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Exceptions.NotFoundException;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace Hackathon.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetAllAsync(Guid employeeId, CancellationToken cancellationToken = default, bool trackChanges = false)
+        public async Task<IEnumerable<EmployeeDto>> GetAllAsync(CancellationToken cancellationToken = default, bool trackChanges = false)
         {
             var employees = await _repositoryManager.Employee.GetAllAsync(cancellationToken, trackChanges);
             List<EmployeeDto> employeeDtos = new List<EmployeeDto>();
@@ -49,9 +50,23 @@ namespace Hackathon.Services
             return employeeDtos;
         }
 
-        public Task<EmployeeDto> GetByIdAsync(Guid employeeId, CancellationToken cancellationToken = default, bool trackChanges = false)
+        public async Task<EmployeeDto> GetByIdAsync(Guid employeeId, CancellationToken cancellationToken = default, bool trackChanges = false)
         {
-            throw new NotImplementedException();
+            var employeeFromDb = await _repositoryManager.Employee.GetByIdAsync(employeeId);
+            if(employeeFromDb is null)
+            {
+                throw new EmployeeNotFoundException(employeeId);
+            }
+
+            return new EmployeeDto
+            {
+                Id = employeeFromDb.Id,
+                Name = employeeFromDb.Name,
+                Address = employeeFromDb.Address?.Line1,
+                Email = employeeFromDb.Email,
+                NIF = employeeFromDb.NIF,
+                OldId = employeeFromDb.OldId
+            };
         }
 
         public Task UpdateAsync(Guid employeeId, EmployeeForUpdateDto employeeForUpdate, CancellationToken cancellationToken = default)

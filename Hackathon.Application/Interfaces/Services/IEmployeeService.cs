@@ -4,7 +4,7 @@ namespace Hackathon.Application.Interfaces.Services
 {
     public interface IEmployeeService
     {
-        Task<IEnumerable<EmployeeDto>> GetAllAsync(Guid employeeId, CancellationToken cancellationToken = default, bool trackChanges = false);
+        Task<IEnumerable<EmployeeDto>> GetAllAsync(CancellationToken cancellationToken = default, bool trackChanges = false);
 
         Task<EmployeeDto> GetByIdAsync(Guid employeeId, CancellationToken cancellationToken = default, bool trackChanges = false);
 

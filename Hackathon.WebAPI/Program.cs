@@ -1,5 +1,6 @@
 using Hackathon.Persistence;
 using Hackathon.Services;
+using Hackhaton.WebAPI.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddServices();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddApplicationPart(typeof(AssemblyReference).Assembly);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

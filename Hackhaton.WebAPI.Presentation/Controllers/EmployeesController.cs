@@ -16,10 +16,25 @@ namespace Hackhaton.WebAPI.Presentation.Controllers
             _service = service;
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetAllEmployeesAsync(CancellationToken cancellationToken)
         {
             var result = await _service.EmployeeService.GetAllAsync(cancellationToken);
             return Ok(result); 
+        }
+
+        /*[HttpPost]
+        public async Task<IActionResult> CreateEmployeesAsync(CancellationToken cancellationToken)
+        {
+            var result = await _service.EmployeeService.GetAllAsync(cancellationToken);
+            return Ok(result);
+        }*/
+
+        [HttpGet("{employeeId}")]
+        public async Task<IActionResult> GetEmployeesAsync(Guid guid)
+        {
+            var result = await _service.EmployeeService.GetByIdAsync(guid);
+            return Ok(result);
         }
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Hackathon.Infrastructure.Persistence\Hackathon.Persistence.csproj" />
     <ProjectReference Include="..\Hackathon.Services\Hackathon.Services.csproj" />
+    <ProjectReference Include="..\Hackhaton.WebAPI.Presentation\Hackhaton.WebAPI.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
