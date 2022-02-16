@@ -16,5 +16,12 @@ namespace Hackathon.Persistence
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryContext).Assembly);
         }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder model)
+        {
+            model.Properties<String>()
+                .HaveMaxLength(256)
+                .AreUnicode(true);
+        }
     }
 }

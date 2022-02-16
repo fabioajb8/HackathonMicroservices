@@ -1,4 +1,5 @@
 using Hackathon.Persistence;
+using Hackathon.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
-
+builder.Services.AddServices();
 builder.Services.AddControllers();
 var app = builder.Build();
 

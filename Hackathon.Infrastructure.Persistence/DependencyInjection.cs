@@ -12,7 +12,7 @@ namespace Hackathon.Persistence
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddDbContext<RepositoryContext>(options =>
                         options.UseSqlServer(configuration.GetConnectionString("sqlconnection"), b =>
-                                    b.MigrationsAssembly("Hackathon.Infrastructure.Persistence")));
+                                    b.MigrationsAssembly("Hackathon.Persistence")));
 
             return services;
         }

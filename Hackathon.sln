@@ -15,15 +15,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{590805AF-6E07-48F8-BB2A-7A4D7F24A45B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Application", "Hackathon.Application\Hackathon.Application.csproj", "{73C20FF6-DC31-4066-A3FE-702D5B7127D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hackathon.Application", "Hackathon.Application\Hackathon.Application.csproj", "{73C20FF6-DC31-4066-A3FE-702D5B7127D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Domain", "Hackathon.Domain\Hackathon.Domain.csproj", "{E81E4520-AD1E-410C-B077-E4900FFAB2BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hackathon.Domain", "Hackathon.Domain\Hackathon.Domain.csproj", "{E81E4520-AD1E-410C-B077-E4900FFAB2BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Persistence", "Hackathon.Infrastructure.Persistence\Hackathon.Persistence.csproj", "{33E8455E-32D7-4ADD-A60C-52B5A7940B66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hackathon.Persistence", "Hackathon.Infrastructure.Persistence\Hackathon.Persistence.csproj", "{33E8455E-32D7-4ADD-A60C-52B5A7940B66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Services", "Hackathon.Services\Hackathon.Services.csproj", "{233202FA-5AF0-4507-87E8-DFB1EBFAD8C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hackathon.Services", "Hackathon.Services\Hackathon.Services.csproj", "{233202FA-5AF0-4507-87E8-DFB1EBFAD8C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.WebAPI", "Hackathon.WebAPI\Hackathon.WebAPI.csproj", "{5C240914-B851-4DB8-B7C7-B9FCC2E7370F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hackathon.WebAPI", "Hackathon.WebAPI\Hackathon.WebAPI.csproj", "{5C240914-B851-4DB8-B7C7-B9FCC2E7370F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackhaton.WebAPI.Presentation", "Hackhaton.WebAPI.Presentation\Hackhaton.WebAPI.Presentation.csproj", "{BB9071D2-313F-4382-917E-8544D290B367}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{5C240914-B851-4DB8-B7C7-B9FCC2E7370F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C240914-B851-4DB8-B7C7-B9FCC2E7370F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C240914-B851-4DB8-B7C7-B9FCC2E7370F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB9071D2-313F-4382-917E-8544D290B367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB9071D2-313F-4382-917E-8544D290B367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB9071D2-313F-4382-917E-8544D290B367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB9071D2-313F-4382-917E-8544D290B367}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{33E8455E-32D7-4ADD-A60C-52B5A7940B66} = {2329DBDC-39F3-47A4-A4FB-8CC2F253E85C}
 		{233202FA-5AF0-4507-87E8-DFB1EBFAD8C4} = {2329DBDC-39F3-47A4-A4FB-8CC2F253E85C}
 		{5C240914-B851-4DB8-B7C7-B9FCC2E7370F} = {590805AF-6E07-48F8-BB2A-7A4D7F24A45B}
+		{BB9071D2-313F-4382-917E-8544D290B367} = {590805AF-6E07-48F8-BB2A-7A4D7F24A45B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C352296E-571E-46A9-8C87-6A1489B51583}
