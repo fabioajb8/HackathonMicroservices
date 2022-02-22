@@ -10,9 +10,9 @@ namespace Hackathon.Persistence
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IRepositoryManager, RepositoryManager>();
-            services.AddDbContext<RepositoryContext>(options =>
-                        options.UseSqlServer(configuration.GetConnectionString("sqlconnection"), b =>
-                                    b.MigrationsAssembly("Hackathon.Persistence")));
+            services.AddDbContext<RepositoryContext>(options 
+                => options.UseSqlServer(configuration.GetConnectionString("sqlconnection"), b
+                => b.MigrationsAssembly("Hackathon.Persistence")));
 
             return services;
         }

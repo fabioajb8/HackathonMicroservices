@@ -1,6 +1,7 @@
-﻿using Hackathon.Application.Interfaces.Persistence.DomainRepositories;
+﻿using AutoMapper;
+using Hackathon.Application.Interfaces.Persistence.DomainRepositories;
 using Hackathon.Application.Interfaces.Services;
-
+using Hackathon.Service;
 
 namespace Hackathon.Services
 {
@@ -8,9 +9,9 @@ namespace Hackathon.Services
     {
         private readonly Lazy<IEmployeeService> _employeeService;
 
-        public ServiceManager(IRepositoryManager repository /*, ILoggerManager logger, IMapper mapper*/)
+        public ServiceManager(IRepositoryManager repository, IMapper mapper)
         {
-            _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService( repository /*, logger, mapper*/));
+            _employeeService = new Lazy<IEmployeeService>(() => new EmployeeService( repository , mapper));
         }
 
         public IEmployeeService EmployeeService => _employeeService.Value;

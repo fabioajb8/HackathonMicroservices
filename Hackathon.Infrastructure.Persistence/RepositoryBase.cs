@@ -16,7 +16,7 @@ namespace Hackathon.Persistence
             => !trackChanges ? _repositoryContext.Set<T>().AsNoTracking() : _repositoryContext.Set<T>();
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, CancellationToken cancellationToken, bool trackChanges)
-            => !trackChanges ? _repositoryContext.Set<T>().Where(expression).AsNoTracking() : _repositoryContext.Set<T>();
+            => !trackChanges ? _repositoryContext.Set<T>().Where(expression).AsNoTracking() : _repositoryContext.Set<T>().Where(expression);
 
         public async Task Insert(T entity, CancellationToken cancellationToken = default)
             => await _repositoryContext.Set<T>().AddAsync(entity, cancellationToken);

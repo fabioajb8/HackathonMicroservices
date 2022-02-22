@@ -1,39 +1,63 @@
-﻿using Hackathon.Application.DataTransferObjects;
+﻿using AutoMapper;
+using Hackathon.Application.DataTransferObjects;
 using Hackathon.Application.Interfaces.Persistence.DomainRepositories;
 using Hackathon.Application.Interfaces.Services;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Exceptions.NotFoundException;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Hackathon.Services
+namespace Hackathon.Service
 {
     public class EmployeeService : IEmployeeService
     {
         private readonly IRepositoryManager _repositoryManager;
-        public EmployeeService(IRepositoryManager repositoryManager)
+        private readonly IMapper _mapper;
+
+        public EmployeeService(IRepositoryManager repositoryManager, IMapper mapper)
         {
-            _repositoryManager = repositoryManager; 
+            _repositoryManager = repositoryManager;
+            _mapper = mapper;
         }
 
-        public Task<EmployeeDto> CreateAsync(EmployeeForCreationDto employeeForCreation, CancellationToken cancellationToken = default)
+        private async Task<Employee> GetEmployeeById(Guid employeeId, CancellationToken cancellationToken, bool trackChanges = false)
         {
-            throw new NotImplementedException();
+            var employeeFromDb = await _repositoryManager.Employee.GetByIdAsync(employeeId, cancellationToken, trackChanges);
+            if (employeeFromDb is null)
+            {
+                throw new EmployeeNotFoundException(employeeId);
+            }
+            return employeeFromDb;
         }
 
-        public Task DeleteAsync(Guid employeeId, CancellationToken cancellationToken = default)
+        public async Task<EmployeeDto> CreateAsync(EmployeeForCreationDto employeeForCreation, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var employee = _mapper.Map<Employee>(employeeForCreation);
+
+            await _repositoryManager.Employee.InsertAsync(employee, cancellationToken);
+            await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            EmployeeDto result = new EmployeeDto()
+            {
+                Id = employee.Id,
+                Name = employee.Name,
+                Address = employee?.Address.Line1,
+                NIF = employee.NIF,
+                OldId = employee.OldId,
+                Email = employee.Email,
+            };
+            return (result);
+        }
+
+        public async Task DeleteAsync(Guid employeeId, CancellationToken cancellationToken)
+        {
+            var employeeFromDb = await GetEmployeeById(employeeId, cancellationToken);
+            _repositoryManager.Employee.Remove(employeeFromDb);
+
+            await _repositoryManager.UnitOfWork.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<EmployeeDto>> GetAllAsync(CancellationToken cancellationToken = default, bool trackChanges = false)
         {
             var employees = await _repositoryManager.Employee.GetAllAsync(cancellationToken, trackChanges);
             List<EmployeeDto> employeeDtos = new List<EmployeeDto>();
-
             foreach (Employee employee in employees)
             {
                 employeeDtos.Add(new EmployeeDto
@@ -44,20 +68,14 @@ namespace Hackathon.Services
                     Email = employee.Email,
                     NIF = employee.NIF,
                     OldId = employee.OldId
-                });  
+                });
             }
-
             return employeeDtos;
         }
 
         public async Task<EmployeeDto> GetByIdAsync(Guid employeeId, CancellationToken cancellationToken = default, bool trackChanges = false)
         {
-            var employeeFromDb = await _repositoryManager.Employee.GetByIdAsync(employeeId);
-            if(employeeFromDb is null)
-            {
-                throw new EmployeeNotFoundException(employeeId);
-            }
-
+            var employeeFromDb = await GetEmployeeById(employeeId, cancellationToken);
             return new EmployeeDto
             {
                 Id = employeeFromDb.Id,
@@ -69,9 +87,14 @@ namespace Hackathon.Services
             };
         }
 
-        public Task UpdateAsync(Guid employeeId, EmployeeForUpdateDto employeeForUpdate, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(Guid employeeId, EmployeeForUpdateDto employeeForUpdate, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            Employee employeeFromDb = await GetEmployeeById(employeeId, cancellationToken, true);
+            employeeFromDb.Name = employeeForUpdate.Name;
+            employeeFromDb.Email = employeeForUpdate?.Email;
+            employeeFromDb.NIF = employeeForUpdate?.NIF;
+
+            await _repositoryManager.UnitOfWork.SaveChangesAsync();
         }
     }
 }
