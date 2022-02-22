@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Hackathon.Application.Common.Models;
 using Hackathon.Application.DataTransferObjects;
 using Hackathon.Application.Interfaces.Persistence.DomainRepositories;
 using Hackathon.Application.Interfaces.Services;
+using Hackathon.Application.Models.Employee;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Exceptions.NotFoundException;
 
@@ -38,7 +40,7 @@ namespace Hackathon.Service
             {
                 Id = employee.Id,
                 Name = employee.Name,
-                Address = employee?.Address.Line1,
+                Address = employee.Address?.Line1,
                 NIF = employee.NIF,
                 OldId = employee.OldId,
                 Email = employee.Email,
@@ -54,23 +56,10 @@ namespace Hackathon.Service
             await _repositoryManager.UnitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetAllAsync(CancellationToken cancellationToken = default, bool trackChanges = false)
+        public async Task<(IEnumerable<EmployeeDto>, MetaData metaData)> GetAllAsync(EmployeeParameters employeeParameters, CancellationToken cancellationToken = default, bool trackChanges = false)
         {
-            var employees = await _repositoryManager.Employee.GetAllAsync(cancellationToken, trackChanges);
-            List<EmployeeDto> employeeDtos = new List<EmployeeDto>();
-            foreach (Employee employee in employees)
-            {
-                employeeDtos.Add(new EmployeeDto
-                {
-                    Id = employee.Id,
-                    Name = employee.Name,
-                    Address = employee.Address?.Line1,
-                    Email = employee.Email,
-                    NIF = employee.NIF,
-                    OldId = employee.OldId
-                });
-            }
-            return employeeDtos;
+            var employees = await _repositoryManager.Employee.GetAllAsync(employeeParameters, cancellationToken, trackChanges);
+            return (_mapper.Map<IEnumerable<EmployeeDto>>(employees), employees.MetaData);
         }
 
         public async Task<EmployeeDto> GetByIdAsync(Guid employeeId, CancellationToken cancellationToken = default, bool trackChanges = false)

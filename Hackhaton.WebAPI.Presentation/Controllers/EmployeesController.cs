@@ -1,11 +1,13 @@
 ﻿using Hackathon.Application.DataTransferObjects;
 using Hackathon.Application.Interfaces.Services;
+using Hackathon.Application.Models.Employee;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Hackhaton.WebAPI.Presentation.Controllers
 {
-
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
     [ApiController]
     public class EmployeesController : ControllerBase
@@ -28,11 +30,13 @@ namespace Hackhaton.WebAPI.Presentation.Controllers
         /// <returns>A list of employees</returns>
         /// <response Code = "200">Returns a list of employees</response>
         [HttpGet]
+        [MapToApiVersion("1.0")]
         [ProducesResponseType(typeof(IEnumerable<EmployeeDto>), 200)]
-        public async Task<IActionResult> GetAllEmployeesAsync(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllEmployeesAsync([FromQuery]EmployeeParameters employeeParameters, CancellationToken cancellationToken)
         {
-            var result = await _service.EmployeeService.GetAllAsync(cancellationToken);
-            return Ok(result);
+            var (employees,metaData) = await _service.EmployeeService.GetAllAsync(employeeParameters, cancellationToken);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
+            return Ok(employees);
         }
 
         /// <summary>
